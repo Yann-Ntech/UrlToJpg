@@ -33,8 +33,7 @@ def getProxy(user_agent):
 def report(list):
     """
     csv report containing url and downloaded image
-    :param url: File Url to download
-    :param file: File downloaded
+    :list: data to include in csv
     :return: None
     """
     dl_data = pd.DataFrame(list)
