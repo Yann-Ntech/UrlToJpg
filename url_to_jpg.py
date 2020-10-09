@@ -1,6 +1,8 @@
 import pandas as pd
 from urllib.request import ProxyHandler, build_opener, install_opener, urlretrieve
 from urllib.parse import urlparse
+from os import makedirs
+from os.path import isdir
 
 __name__ = 'Url_to_jpg'
 __author__ = 'Yann_NTECH'
@@ -59,6 +61,13 @@ def urlToJpg(i, url, file_path):
 print('#'*50)
 print('################### Url_to_jpg ################### ')
 print('#'*50)
+
+# make pictures folder
+try:
+ makedirs('pictures')
+except OSError:
+ if not isdir('pictures'):
+    raise
 
 # Set proxy
 getProxy(PROXY_USER_AGENT)
