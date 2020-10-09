@@ -1,0 +1,75 @@
+import pandas as pd
+from urllib.request import ProxyHandler, build_opener, install_opener, urlretrieve
+from urllib.parse import urlparse
+
+__name__ = 'Url_to_jpg'
+__author__ = 'Yann_NTECH'
+__version__ = 0.2
+__date__ = '05-10-2020'
+__updated__ = '09-10-2020'
+
+# Constants
+PROXY_USER_AGENT = 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.111 Safari/537.36'
+FILENAME = 'urls.csv'
+FILE_PATH = 'pictures/'
+
+# Variables
+ReportList = []
+
+# Functions
+def getProxy(user_agent):
+    '''
+    set the proxy to avoid the Forbidden 403 error
+    :param user_agent: set User Agent
+    :return: None
+    '''
+    proxy = ProxyHandler({})
+    opener = build_opener(proxy)
+    opener.addheaders = [('User-Agent', user_agent)]
+    install_opener(opener)
+
+def report(list):
+    """
+    csv report containing url and downloaded image
+    :param url: File Url to download
+    :param file: File downloaded
+    :return: None
+    """
+    dl_data = pd.DataFrame(list)
+    dl_data.to_csv('report.csv')
+
+def urlToJpg(i, url, file_path):
+    """
+    convert url file to jpg
+    :param i: number of image
+    :param url: URL address of a given image
+    :param file_path: where to save image downloaded
+    :return: None
+    """
+    filename = f'picture-{i}.jpg'
+    full_path = f'{file_path}{filename}'
+    urlretrieve(url=url, filename=full_path)
+    urlParsed = urlparse(url)
+    pathName = urlParsed.path
+    pathName = pathName.replace('/', '_')
+    ReportList.append([url, pathName])
+    print(f'URL : {url} - PICTURE : {pathName} saved')
+
+# Program
+print('#'*50)
+print('################### Url_to_jpg ################### ')
+print('#'*50)
+
+# Set proxy
+getProxy(PROXY_USER_AGENT)
+
+# Read csv -> urls list
+urls = pd.read_csv(FILENAME)
+
+# Save image to dir by iterating urls list
+for i, url in enumerate(urls.values):
+    urlToJpg(i, url[0], FILE_PATH)
+
+report(ReportList)
+print('\nreport.csv edited')
+input('\nProcess completed. Press any key to exit')
