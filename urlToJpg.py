@@ -1,4 +1,4 @@
-__name__ = 'Url_to_jpg'
+__name__ = 'UrlToJpg'
 __author__ = 'Yann-NTECH'
 __version__ = 0.3
 __date__ = '05-10-2020'
