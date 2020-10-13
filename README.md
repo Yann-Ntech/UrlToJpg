@@ -1,4 +1,4 @@
-# Url_to_jpg
+# UrlToJpg
 
 Download files from urls to jpg
 
