@@ -1,6 +1,6 @@
 # Url_to_jpg
 
-Download urls files to jpg
+Download files from urls to jpg
 
 ## Example
 
