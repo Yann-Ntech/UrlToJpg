@@ -6,14 +6,14 @@ Download files from urls to jpg
 
 - Extract urls files (jpg / png) in urls.csv
 - Insert urls.csv in this folder.
-- use url_to_jpg.py
+- use urlToJpg.py
 
 ## Results
 
 - report.csv
 - Pictures in pictures folder 
 
-You can import pictures in an other tool to analyze them
+You can import pictures in an another tool to analyze them
 
 ## Requirements
 
