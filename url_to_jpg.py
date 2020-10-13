@@ -1,14 +1,15 @@
+__name__ = 'Url_to_jpg'
+__author__ = 'Yann_NTECH'
+__version__ = 0.3
+__date__ = '05-10-2020'
+__updated__ = '12-10-2020'
+
 import pandas as pd
 from urllib.request import ProxyHandler, build_opener, install_opener, urlretrieve
 from urllib.parse import urlparse
+from urllib.error import HTTPError
 from os import makedirs
 from os.path import isdir
-
-__name__ = 'Url_to_jpg'
-__author__ = 'Yann_NTECH'
-__version__ = 0.2
-__date__ = '05-10-2020'
-__updated__ = '09-10-2020'
 
 # Constants
 PROXY_USER_AGENT = 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.111 Safari/537.36'
@@ -47,14 +48,19 @@ def urlToJpg(i, url, file_path):
     :param file_path: where to save image downloaded
     :return: None
     """
-    filename = f'picture-{i}.jpg'
-    full_path = f'{file_path}{filename}'
-    urlretrieve(url=url, filename=full_path)
-    urlParsed = urlparse(url)
-    pathName = urlParsed.path
-    pathName = pathName.replace('/', '_')
-    ReportList.append([url, pathName])
-    print(f'URL : {url} - PICTURE : {pathName} saved')
+    try:
+        urlParsed = urlparse(url)
+        pathName = urlParsed.path
+        pathName = pathName.replace('/', '_')
+        ReportList.append([url, pathName])
+        print(f'URL : {url} - PICTURE : {pathName} saved')
+        full_path = f'{file_path}{pathName}'
+        urlretrieve(url=url, filename=full_path)
+
+    except HTTPError as exception:
+        ReportList.append([url, exception])
+        print(f'URL : {url} - PICTURE : {exception}')
+        return None
 
 # Program
 print('#'*50)
